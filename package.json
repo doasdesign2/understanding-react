@@ -1,0 +1,59 @@
+{
+  "name": "mini-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack/dev.config --history-api-fallback --open",
+    "build": "cross-env NODE_ENV=production BABEL_ENV=production webpack --progress --config webpack/prod.config -p",
+    "test": "jest src --no-cache --coverage",
+    "test:watch": "yarn test --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/preset-typescript": "^7.0.0-beta.52",
+    "@types/chai": "^4.1.4",
+    "@types/jest": "^23.1.4",
+    "@types/jsdom": "^11.0.6",
+    "awesome-typescript-loader": "^5.2.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-loader": "8.0.0-beta.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "chai": "^4.1.2",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.3.0",
+    "jsdom": "^11.11.0",
+    "path": "^0.12.7",
+    "source-map-loader": "^0.2.3",
+    "ts-jest": "^23.0.0",
+    "typescript": "^3.0.0-dev.20180707",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "^.+\\.(s)?css$": "<rootDir>/node_modules/identity-obj-proxy"
+    },
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true,
+        "tsConfigFile": "tsconfig.json"
+      }
+    }
+  }
+}

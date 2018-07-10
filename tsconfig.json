@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "es6",
+    "target": "es6",
+    "allowJs": true,
+    "strictNullChecks": true,
+    "lib": ["dom", "es2015", "es2016", "esnext"]
+  },
+  "include": [
+    "./src/ts/**/*"
+  ]
+}
