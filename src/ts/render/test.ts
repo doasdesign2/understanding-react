@@ -43,7 +43,7 @@ describe('renderDom should:', () => {
     expect(renderDom).to.be.a('function')
   })
 
-  it('render dom', () => {
+  it('render full dom', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
     expect(renderDom(setChildren, setAttrs)(NodeMock, root)).to.have.html(ResultMock)
@@ -55,7 +55,7 @@ describe('setChildren should:', () => {
     expect(setChildren).to.be.a('function')
   })
 
-  it('render dom', () => {
+  it('render full dom', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
     expect(setChildren(renderDom)(NodeMock, root)).to.have.html(ResultMock)
@@ -67,12 +67,10 @@ describe('setAttrs should:', () => {
     expect(setAttrs).to.be.a('function')
   })
 
-  it('render dom', () => {
+  it('render dom with correct attributes', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
-    expect(setAttrs(NodeMock.children[0], root)).to.have.text('Ajuste de limite')
     expect(setAttrs(NodeMock.children[1], root)).to.have.attribute('type', 'text')
-    expect(setAttrs(NodeMock.children[2], root)).to.have.text('R$ 2500 disponíveis')
     expect(setAttrs(NodeMock.children[3], root)).to.have.attribute('value', '2500')
   })
 })
@@ -200,7 +198,7 @@ describe('MiniReact should', () => {
     expect(MiniReact.render).to.be.a('function')
   })
 
-  it('render dom', () => {
+  it('render full dom', () => {
     expect(instance.tagName).to.be.equal('DIV')
     expect(instance).to.have.length(4)
     expect(instance).to.have.html(ResultMock)
