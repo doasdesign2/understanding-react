@@ -1,8 +1,8 @@
 'use strict'
 
-import { expect } from 'chai'
-// import { JSDOM } from 'jsdom'
-import {
+import chai, { expect } from 'chai'
+import chaiDom from 'chai-dom'
+import MiniReact, {
   append,
   renderDom,
   setChildren,
@@ -13,6 +13,9 @@ import {
   hasValidAttr,
   setAttr
 } from './index'
+import AppMock, { NodeMock, ResultMock } from './mock';
+
+chai.use(chaiDom)
 
 describe('append should:', () => {
   it('be a function', () => {
@@ -22,12 +25,13 @@ describe('append should:', () => {
   it('return the own element if hasn`t a wrapper', () => {
     const div = document.createElement('div')
     div.textContent = 'teste'
-    expect(append(div)).to.be.deep.equal(div)
+    expect(append(div).tagName).to.be.equal('DIV')
+    expect(append(div)).to.have.html('teste')
   })
 
   it('return the element inside the wrapper', () => {
     const p = document.createElement('p')
-    p.textContent = 'teste'
+    p.textContent = 'texte'
     const div = document.createElement('div')
     const appended = div.appendChild(p)
     expect(append(p, div)).to.be.deep.equal(appended)
@@ -38,17 +42,38 @@ describe('renderDom should:', () => {
   it('be a function', () => {
     expect(renderDom).to.be.a('function')
   })
+
+  it('render dom', () => {
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    expect(renderDom(setChildren, setAttrs)(NodeMock, root)).to.have.html(ResultMock)
+  })
 })
 
 describe('setChildren should:', () => {
   it('be a function', () => {
     expect(setChildren).to.be.a('function')
   })
+
+  it('render dom', () => {
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    expect(setChildren(renderDom)(NodeMock, root)).to.have.html(ResultMock)
+  })
 })
 
 describe('setAttrs should:', () => {
   it('be a function', () => {
     expect(setAttrs).to.be.a('function')
+  })
+
+  it('render dom', () => {
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    expect(setAttrs(NodeMock.children[0], root)).to.have.text('Ajuste de limite')
+    expect(setAttrs(NodeMock.children[1], root)).to.have.attribute('type', 'text')
+    expect(setAttrs(NodeMock.children[2], root)).to.have.text('R$ 2500 disponíveis')
+    expect(setAttrs(NodeMock.children[3], root)).to.have.attribute('value', '2500')
   })
 })
 
@@ -121,7 +146,6 @@ describe('hasValidAttr should:', () => {
 })
 
 describe('setAttr should:', () => {
-
   it('be a function', () => {
     expect(setAttr).to.be.a('function')
   })
@@ -130,19 +154,19 @@ describe('setAttr should:', () => {
     const div = document.createElement('div')
     const elem = setAttr(div, 'textContent', 'texto')
     expect(elem.tagName).to.be.equal('DIV')
-    expect(elem.textContent).to.be.equal('texto')
+    expect(elem).to.have.text('texto')
   })
 
   it('put an event if it receives an event', () => {
     const input = document.createElement('input')
     const elem = setAttr(input, 'onchange', () => 'hello')
-    expect(elem.tagName).to.be.deep.equal('INPUT')
+    expect(elem.tagName).to.be.equal('INPUT')
   })
 
   it('set attribute if is a listed DOM element', () => {
     const elem = setAttr(document.createElement('input'), 'type', 'text')
-    expect(elem.tagName).to.be.deep.equal('INPUT')
-    expect(elem.getAttribute('type')).to.be.deep.equal('text')
+    expect(elem.tagName).to.be.equal('INPUT')
+    expect(elem).to.have.attribute('type', 'text')
   })
 
   it('throw an error if hasn`t a valid elem', () => {
@@ -163,5 +187,22 @@ describe('setAttr should:', () => {
       msg = err
     }
     expect(msg).to.be.a('Error')
+  })
+})
+
+describe('MiniReact should', () => {
+  const root = document.createElement('div')
+  root.setAttribute('id', 'root')
+  const instance: any = MiniReact.render(new AppMock(), root)
+
+  it('be a function', () => {
+    expect(MiniReact).to.be.a('function')
+    expect(MiniReact.render).to.be.a('function')
+  })
+
+  it('render dom', () => {
+    expect(instance.tagName).to.be.equal('DIV')
+    expect(instance).to.have.length(4)
+    expect(instance).to.have.html(ResultMock)
   })
 })

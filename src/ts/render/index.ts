@@ -43,10 +43,10 @@ export const setAttrs = (vDom: { props: any }, dom: HTMLElement): HTMLElement =>
   return dom
 }
 
-export const isTextNode = (prop: any, value: any): boolean =>
+export const isTextNode = (prop: string, value: any): boolean =>
   prop === 'textContent' && typeof value === 'string'
 
-export const isEvent = (prop: any, value: any): boolean =>
+export const isEvent = (prop: string, value: any): boolean =>
   prop.startsWith('on') && typeof value === 'function'
 
 export const hasValidElem = (tagName: string): boolean =>
@@ -76,7 +76,7 @@ class MiniReact {
   static render (vDom: any, wrapper?: HTMLElement): void {
     const vDomCons = vDom.constructor
     const instance = new (vDomCons)(vDomCons.props)
-    renderDom(setChildren, setAttrs)(instance.render(), wrapper)
+    return renderDom(setChildren, setAttrs)(instance.render(), wrapper)
   }
 }
 
