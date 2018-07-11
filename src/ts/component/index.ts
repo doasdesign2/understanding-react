@@ -41,6 +41,7 @@ const updateDOM = (dom: HTMLElement, vDOM: any, parent = dom.parentNode) => {
 
 class Component {
   currentDOM: HTMLElement
+  currentVDOM: HTMLElement
   state: {}
 
   setState (nextState: Function|{}) {
@@ -55,6 +56,7 @@ class Component {
         ...nextState
       }
     }
+    console.log(this.currentVDOM, this.render())
     updateDOM(this.currentDOM, this.render())
   }
 

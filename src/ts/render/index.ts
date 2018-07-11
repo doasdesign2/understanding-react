@@ -80,8 +80,7 @@ class MiniReact {
   static render (vDOM: any, wrapper?: HTMLElement): void {
     const vDOMCons = vDOM.constructor
     const instance = new (vDOMCons)(vDOMCons.props)
-    instance.currentVDOM = instance.render()
-    instance.currentDOM = renderDOM(setChildren, setAttrs)(instance.currentVDOM, wrapper)
+    instance.currentDOM = renderDOM(setChildren, setAttrs)(instance.render(), wrapper)
     return instance.currentDOM
   }
 }
