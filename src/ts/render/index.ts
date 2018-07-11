@@ -15,12 +15,12 @@ export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement =>
   }
 }
 
-export const renderDom = (setChildren: Function, setAttrs: Function): Function =>
+export const renderDOM = (setChildren: Function, setAttrs: Function): Function =>
   (vDom: any, wrapper?: HTMLElement): HTMLElement => {
     try {
       const elem = document.createElement(vDom.tagName)
       const dom = append(elem, wrapper)
-      setChildren(renderDom)(vDom, dom)
+      setChildren(renderDOM)(vDom, dom)
       setAttrs(vDom, dom)
       return dom
     } catch (err) {
@@ -28,10 +28,14 @@ export const renderDom = (setChildren: Function, setAttrs: Function): Function =
     }
   }
 
-export const setChildren = (renderDom: Function): Function =>
+export const setChildren = (renderDOM: Function): Function =>
   (vDom: any, dom: HTMLElement): HTMLElement => {
     vDom.children && vDom.children.forEach((child: any): void => {
-      renderDom(setChildren, setAttrs)(child, dom)
+      try {
+        renderDOM(setChildren, setAttrs)(child, dom)
+      } catch (err) {
+        throw new Error('Failed to execute renderDOM')
+      }
     })
     return dom
   }
@@ -76,7 +80,8 @@ class MiniReact {
   static render (vDom: any, wrapper?: HTMLElement): void {
     const vDomCons = vDom.constructor
     const instance = new (vDomCons)(vDomCons.props)
-    return renderDom(setChildren, setAttrs)(instance.render(), wrapper)
+    instance.current = renderDOM(setChildren, setAttrs)(instance.render(), wrapper)
+    return instance.current
   }
 }
 

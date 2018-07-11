@@ -4,7 +4,7 @@ import Component from '../component/index'
 import node from '../node/index'
 
 export default class AppMock extends Component {
-  render() {
+  render () {
     return NodeMock
   }
 }

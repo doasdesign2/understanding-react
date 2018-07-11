@@ -4,7 +4,7 @@ import chai, { expect } from 'chai'
 import chaiDom from 'chai-dom'
 import MiniReact, {
   append,
-  renderDom,
+  renderDOM,
   setChildren,
   setAttrs,
   isTextNode,
@@ -36,17 +36,42 @@ describe('append should:', () => {
     const appended = div.appendChild(p)
     expect(append(p, div)).to.be.deep.equal(appended)
   })
+
+  it('throw an error if fail to append', () => {
+    let msg
+    const p = document.createElement('p')
+
+    try {
+      append(p, p)
+    } catch (err) {
+      msg = err
+    }
+    expect(msg).to.be.a('Error')
+  })
 })
 
-describe('renderDom should:', () => {
+describe('renderDOM should:', () => {
   it('be a function', () => {
-    expect(renderDom).to.be.a('function')
+    expect(renderDOM).to.be.a('function')
   })
 
-  it('render full dom', () => {
+  it('render full DOM', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
-    expect(renderDom(setChildren, setAttrs)(NodeMock, root)).to.have.html(ResultMock)
+    expect(renderDOM(setChildren, setAttrs)(NodeMock, root)).to.have.html(ResultMock)
+  })
+
+  it('to throw an error if fail to execute setChildren and setAttrs', () => {
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    let msg
+
+    try {
+      renderDOM(() => {}, () => {})(NodeMock, root)
+    } catch (err) {
+      msg = err
+    }
+    expect(msg).to.be.a('Error')
   })
 })
 
@@ -55,10 +80,23 @@ describe('setChildren should:', () => {
     expect(setChildren).to.be.a('function')
   })
 
-  it('render full dom', () => {
+  it('render full DOM', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
-    expect(setChildren(renderDom)(NodeMock, root)).to.have.html(ResultMock)
+    expect(setChildren(renderDOM)(NodeMock, root)).to.have.html(ResultMock)
+  })
+
+  it('to throw an error if fail to execute renderDOM dependence', () => {
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    let msg
+
+    try {
+      setChildren(() => {})(NodeMock, root)
+    } catch (err) {
+      msg = err
+    }
+    expect(msg).to.be.a('Error')
   })
 })
 
@@ -67,7 +105,7 @@ describe('setAttrs should:', () => {
     expect(setAttrs).to.be.a('function')
   })
 
-  it('render dom with correct attributes', () => {
+  it('render DOM with correct attributes', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
     expect(setAttrs(NodeMock.children[1], root)).to.have.attribute('type', 'text')
@@ -198,7 +236,7 @@ describe('MiniReact should', () => {
     expect(MiniReact.render).to.be.a('function')
   })
 
-  it('render full dom', () => {
+  it('render full DOM', () => {
     expect(instance.tagName).to.be.equal('DIV')
     expect(instance).to.have.length(4)
     expect(instance).to.have.html(ResultMock)
