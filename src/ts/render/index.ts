@@ -16,12 +16,12 @@ export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement =>
 }
 
 export const renderDOM = (setChildren: Function, setAttrs: Function): Function =>
-  (vDom: any, wrapper?: HTMLElement): HTMLElement => {
+  (vDOM: any, wrapper?: HTMLElement): HTMLElement => {
     try {
-      const elem = document.createElement(vDom.tagName)
+      const elem = document.createElement(vDOM.tagName)
+      setAttrs(vDOM, elem)
       const dom = append(elem, wrapper)
-      setChildren(renderDOM)(vDom, dom)
-      setAttrs(vDom, dom)
+      setChildren(renderDOM)(vDOM, dom)
       return dom
     } catch (err) {
       throw new Error('Invalid DOM')
@@ -29,8 +29,8 @@ export const renderDOM = (setChildren: Function, setAttrs: Function): Function =
   }
 
 export const setChildren = (renderDOM: Function): Function =>
-  (vDom: any, dom: HTMLElement): HTMLElement => {
-    vDom.children && vDom.children.forEach((child: any): void => {
+  (vDOM: any, dom: HTMLElement): HTMLElement => {
+    vDOM.children && vDOM.children.forEach((child: any): void => {
       try {
         renderDOM(setChildren, setAttrs)(child, dom)
       } catch (err) {
@@ -40,9 +40,9 @@ export const setChildren = (renderDOM: Function): Function =>
     return dom
   }
 
-export const setAttrs = (vDom: { props: any }, dom: HTMLElement): HTMLElement => {
-  for (const prop in vDom.props) {
-    setAttr(dom, prop, vDom.props[prop])
+export const setAttrs = (vDOM: { props: any }, dom: HTMLElement): HTMLElement => {
+  for (const prop in vDOM.props) {
+    setAttr(dom, prop, vDOM.props[prop])
   }
   return dom
 }
@@ -77,11 +77,12 @@ export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement =>
 }
 
 class MiniReact {
-  static render (vDom: any, wrapper?: HTMLElement): void {
-    const vDomCons = vDom.constructor
-    const instance = new (vDomCons)(vDomCons.props)
-    instance.current = renderDOM(setChildren, setAttrs)(instance.render(), wrapper)
-    return instance.current
+  static render (vDOM: any, wrapper?: HTMLElement): void {
+    const vDOMCons = vDOM.constructor
+    const instance = new (vDOMCons)(vDOMCons.props)
+    instance.currentVDOM = instance.render()
+    instance.currentDOM = renderDOM(setChildren, setAttrs)(instance.currentVDOM, wrapper)
+    return instance.currentDOM
   }
 }
 

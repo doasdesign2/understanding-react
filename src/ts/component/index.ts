@@ -7,18 +7,19 @@ import {
   setChildren
 } from '../render/index'
 
-const updateDOM = (dom: HTMLElement, vDom: any, parent = dom.parentNode) => {
+const updateDOM = (dom: HTMLElement, vDOM: any, parent = dom.parentNode) => {
   const pool: any = {};
 
   [].map.call(dom.childNodes, (child: HTMLElement, i: number) => {
     pool[`index${i}`] = child
   });
 
-  [].map.call(vDom.children, (child: HTMLElement, i: number) => {
+  [].map.call(vDOM.children, (child: HTMLElement, i: number) => {
     const key = `index${i}`
     const result = pool[key]
       ? updateDOM(pool[key], child)
       : renderDOM(setChildren, setAttrs)(child, dom)
+
     dom.appendChild(result)
     delete pool[key]
   })
@@ -29,14 +30,17 @@ const updateDOM = (dom: HTMLElement, vDom: any, parent = dom.parentNode) => {
 
   console.log(dom)
 
-  for (const attr of Array.from(dom.attributes)) dom.removeAttribute(attr.name)
-  for (const prop in vDom.props) setAttr(dom, prop, vDom.props[prop])
+  for (const attr of Array.from(dom.attributes)) {
+    dom.removeAttribute(attr.name)
+  }
+
+  setAttrs(vDOM, dom)
 
   return dom
 }
 
 class Component {
-  current: HTMLElement
+  currentDOM: HTMLElement
   state: {}
 
   setState (nextState: Function|{}) {
@@ -51,7 +55,7 @@ class Component {
         ...nextState
       }
     }
-    updateDOM(this.current, this.render())
+    updateDOM(this.currentDOM, this.render())
   }
 
   render () {
