@@ -24,16 +24,6 @@ const updateDOM = (dom: HTMLElement, vDOM: any, parent = dom.parentNode) => {
     delete pool[key]
   })
 
-  for (const key in pool) {
-    pool[key].remove();
-  }
-
-  console.log(dom)
-
-  for (const attr of Array.from(dom.attributes)) {
-    dom.removeAttribute(attr.name)
-  }
-
   setAttrs(vDOM, dom)
 
   return dom
@@ -42,22 +32,24 @@ const updateDOM = (dom: HTMLElement, vDOM: any, parent = dom.parentNode) => {
 class Component {
   currentDOM: HTMLElement
   currentVDOM: HTMLElement
-  state: {}
+  props: {}
+  state: any
+
+  shouldComponentUpdate (nextState: any): boolean {
+    return !Object.keys(nextState).every((key: string): boolean =>
+      nextState[key] === this.state[key]
+    )
+  }
 
   setState (nextState: Function|{}) {
-    if (typeof nextState === 'function') {
+    const state = typeof nextState === 'function' ? nextState() : nextState
+    if (this.currentDOM && this.shouldComponentUpdate(state)) {
       this.state = {
         ...this.state,
-        ...nextState()
+        ...state
       }
-    } else if (typeof nextState === 'object') {
-      this.state = {
-        ...this.state,
-        ...nextState
-      }
+      updateDOM(this.currentDOM, this.render())
     }
-    console.log(this.currentVDOM, this.render())
-    updateDOM(this.currentDOM, this.render())
   }
 
   render () {

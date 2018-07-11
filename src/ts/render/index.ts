@@ -68,6 +68,8 @@ export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement =>
     const event = EVENTS[prop]
     dom.removeEventListener(event, value)
     dom.addEventListener(event, value)
+  } else if (prop === 'value') {
+    dom[prop] = value
   } else if (hasValidAttr(prop)) {
     dom.setAttribute(prop, value)
   } else {
@@ -79,7 +81,7 @@ export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement =>
 class MiniReact {
   static render (vDOM: any, wrapper?: HTMLElement): void {
     const vDOMCons = vDOM.constructor
-    const instance = new (vDOMCons)(vDOMCons.props)
+    const instance = new (vDOMCons)()
     instance.currentDOM = renderDOM(setChildren, setAttrs)(instance.render(), wrapper)
     return instance.currentDOM
   }
