@@ -18,7 +18,7 @@ class App extends Component {
         },
         {
           tagName: 'h2',
-          class: 'hello1',
+          class: 'hello',
           textContent: 'ajustando2'
         }
       ],
@@ -44,7 +44,7 @@ class App extends Component {
       ],
       header2: [
         {
-          tagName: 'h3',
+          tagName: 'h2',
           class: 'hello',
           textContent: `${this.state.label}olar`
         }

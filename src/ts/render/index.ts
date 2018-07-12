@@ -5,7 +5,7 @@ enum EVENTS {
   onclick = 'click'
 }
 
-const VALID_ELEMS = ['b', 'button', 'div', 'figure', 'img', 'input', 'h1', 'h2', 'h3', 'p', 'span', 'small']
+const VALID_ELEMS = ['b', 'button', 'div', 'figure', 'img', 'input', 'h1', 'h2', 'h3', 'h4', 'p', 'span', 'small']
 const VALID_ATTRS = ['class', 'id', 'max', 'min', 'type', 'value']
 
 export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement => {

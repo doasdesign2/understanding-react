@@ -17,14 +17,14 @@ const updateDOM = (dom: HTMLElement, vDOM: any) => {
       setAttrs(child, childNode)
       // updateDOM(childNode, child)
     } else if (childNode && child.tagName !== childNode.tagName.toLowerCase() && dom.childNodes.length > vDOM.children.length) {
-      console.log(child)
       childNode.remove()
+      updateDOM(dom, vDOM)
+      // setAttrs(child, dom.childNodes[i])
     } else {
       const elem = document.createElement(child.tagName)
       setAttrs(vDOM.children[i], elem)
       dom.insertBefore(elem, childNode)
     }
-    // setAttrs(vDOM, dom)
     child.children && updateDOM(childNode, child)
   })
 
