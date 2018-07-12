@@ -34,4 +34,4 @@ export const NodeMock = node({
   ]
 })
 
-export const ResultMock = '<h1>Ajuste de limite</h1><input type="text" value="2500"><p>R$ 2500 disponíveis</p><input type="range" min="0" max="5000" value="2500">'
+export const ResultMock = '<h1>Ajuste de limite</h1><input type="text"><p>R$ 2500 disponíveis</p><input type="range" min="0" max="5000">'

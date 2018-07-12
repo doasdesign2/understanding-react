@@ -9,6 +9,7 @@ import MiniReact, {
   setAttrs,
   isTextNode,
   isEvent,
+  isInputAndValue,
   hasValidElem,
   hasValidAttr,
   setAttr
@@ -145,6 +146,23 @@ describe('isEvent should:', () => {
   })
 })
 
+describe('isInputAndValue should:', () => {
+  it('be a function', () => {
+    expect(isInputAndValue).to.be.a('function')
+  })
+
+  it('return true if prop starts with on and value is a function', () => {
+    const input = document.createElement('input')
+    expect(isInputAndValue(input.tagName, 'value')).to.be.ok
+  })
+
+  it('return false if prop doesn`t starts with on and value isn`t a function or neither', () => {
+    expect(isInputAndValue('DIV', 'text')).to.be.not.ok
+    expect(isInputAndValue('P', 'onchange')).to.be.not.ok
+    expect(isInputAndValue('H1', 'width')).to.be.not.ok
+  })
+})
+
 describe('hasValidElem should:', () => {
   it('be a function', () => {
     expect(hasValidElem).a('function')
@@ -160,7 +178,6 @@ describe('hasValidElem should:', () => {
   it('return false if hasn`t valid elements', () => {
     expect(hasValidElem('EMBED')).to.be.not.ok
     expect(hasValidElem('SVG')).to.be.not.ok
-    expect(hasValidElem('IMG')).to.be.not.ok
   })
 })
 
@@ -203,6 +220,12 @@ describe('setAttr should:', () => {
     const elem = setAttr(document.createElement('input'), 'type', 'text')
     expect(elem.tagName).to.be.equal('INPUT')
     expect(elem).to.have.attribute('type', 'text')
+  })
+
+  it('set value if is a listed DOM element', () => {
+    const elem = setAttr(document.createElement('input'), 'value', 'teste')
+    expect(elem.tagName).to.be.equal('INPUT')
+    expect(elem.value).to.be.equal('teste')
   })
 
   it('throw an error if hasn`t a valid elem', () => {

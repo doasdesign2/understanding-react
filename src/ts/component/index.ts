@@ -7,25 +7,34 @@ import {
   setChildren
 } from '../render/index'
 
-const updateDOM = (dom: HTMLElement, vDOM: any, parent = dom.parentNode) => {
-  const pool: any = {};
+const updateDOM = (dom: HTMLElement, vDOM: any) => {
+  console.log(vDOM);
 
-  [].map.call(dom.childNodes, (child: HTMLElement, i: number) => {
-    pool[`index${i}`] = child
-  });
-
-  [].map.call(vDOM.children, (child: HTMLElement, i: number) => {
-    const key = `index${i}`
-    const result = pool[key]
-      ? updateDOM(pool[key], child)
-      : renderDOM(setChildren, setAttrs)(child, dom)
-
-    dom.appendChild(result)
-    delete pool[key]
+  [].forEach.call(vDOM.children, (child: HTMLElement, i: number): void => {
+    const childNode = dom.childNodes[i]
+    if (childNode && child.tagName === childNode.tagName.toLowerCase()) {
+      // console.log(childNode.tagName)
+      setAttrs(child, childNode)
+      // updateDOM(childNode, child)
+    } else if (childNode && child.tagName !== childNode.tagName.toLowerCase() && dom.childNodes.length > vDOM.children.length) {
+      console.log(child)
+      childNode.remove()
+    } else {
+      const elem = document.createElement(child.tagName)
+      setAttrs(vDOM.children[i], elem)
+      dom.insertBefore(elem, childNode)
+    }
+    // setAttrs(vDOM, dom)
+    child.children && updateDOM(childNode, child)
   })
 
-  setAttrs(vDOM, dom)
+  return dom
+}
 
+const cleanDOM = (dom: HTMLElement, vDOM: any) => {
+  for (let j = dom.childNodes.length; j > vDOM.children.length; j--) {
+    dom.childNodes[j].remove()
+  }
   return dom
 }
 
@@ -48,7 +57,9 @@ class Component {
         ...this.state,
         ...state
       }
-      updateDOM(this.currentDOM, this.render())
+      const vDOM = this.render()
+      const dom = updateDOM(this.currentDOM, vDOM)
+      // cleanDOM(dom, vDOM)
     }
   }
 

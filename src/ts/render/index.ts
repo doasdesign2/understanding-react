@@ -1,11 +1,12 @@
 'use strict'
 
 enum EVENTS {
-  onchange = 'change'
+  onchange = 'change',
+  onclick = 'click'
 }
 
-const VALID_ELEMS = ['DIV', 'INPUT', 'H1', 'P']
-const VALID_ATTRS = ['max', 'min', 'type', 'value']
+const VALID_ELEMS = ['b', 'button', 'div', 'figure', 'img', 'input', 'h1', 'h2', 'h3', 'p', 'span', 'small']
+const VALID_ATTRS = ['class', 'id', 'max', 'min', 'type', 'value']
 
 export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement => {
   try {
@@ -53,8 +54,11 @@ export const isTextNode = (prop: string, value: any): boolean =>
 export const isEvent = (prop: string, value: any): boolean =>
   prop.startsWith('on') && typeof value === 'function'
 
+export const isInputAndValue = (tagName: string, prop: string): boolean =>
+  tagName === 'INPUT' && prop === 'value'
+
 export const hasValidElem = (tagName: string): boolean =>
-  VALID_ELEMS.includes(tagName)
+  VALID_ELEMS.includes(tagName.toLowerCase())
 
 export const hasValidAttr = (prop: string): boolean =>
   VALID_ATTRS.includes(prop)
@@ -64,11 +68,7 @@ export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement =>
     throw new Error('Invalid tag')
   } else if (isTextNode(prop, value)) {
     dom.textContent = value
-  } else if (isEvent(prop, value)) {
-    const event = EVENTS[prop]
-    dom.removeEventListener(event, value)
-    dom.addEventListener(event, value)
-  } else if (prop === 'value') {
+  } else if (isEvent(prop, value) || isInputAndValue(dom.tagName, prop)) {
     dom[prop] = value
   } else if (hasValidAttr(prop)) {
     dom.setAttribute(prop, value)

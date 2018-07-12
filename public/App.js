@@ -5,6 +5,23 @@ class App extends Component {
     this.state = {
       definedLimit: 2500,
       maxLimit: 5000,
+      header: [
+        {
+          tagName: 'h1',
+          textContent: 'Ajuste de limite'
+        }
+      ],
+      header2: [
+        {
+          tagName: 'h1',
+          textContent: 'Ajuste de limite'
+        },
+        {
+          tagName: 'h2',
+          textContent: 'ajustando2'
+        }
+      ],
+      label: ''
     };
   }
 
@@ -14,14 +31,33 @@ class App extends Component {
     }))
   }
 
+  changeHeader () {
+    this.setState({
+      header: [
+        ...this.state.header,
+        {
+          tagName: 'h2',
+          class: 'hello',
+          textContent: 'testando222'
+        }
+      ],
+      header2: [
+        {
+          tagName: 'h2',
+          class: 'hello',
+          textContent: `${this.state.label}olar`
+        }
+      ],
+      label: `${this.state.label}olar`
+    })
+  }
+
   render() {
     return node({
       tagName: 'div',
       children: [
-        {
-          tagName: 'h1',
-          textContent: 'Ajuste de limite'
-        }, {
+        ...this.state.header
+        , {
           tagName: 'input',
           type: 'text',
           value: this.state.definedLimit,
@@ -36,7 +72,26 @@ class App extends Component {
           max: this.state.maxLimit,
           value: this.state.definedLimit,
           onchange: e => this.setDefinedLimit(e)
-        }
+        }, {
+          tagName: 'div',
+          children: [
+            {
+              tagName: 'figure',
+              children: [
+                ...this.state.header2,
+                {
+                  tagName: 'p',
+                  textContent: this.state.label
+                }
+              ]
+            }
+          ]
+        }, {
+          tagName: 'button',
+          textContent: 'Click',
+          onclick: () => this.changeHeader()
+        },
+        ...this.state.header2
       ],
     });
   }
