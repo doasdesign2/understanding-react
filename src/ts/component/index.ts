@@ -7,21 +7,27 @@ import {
   setChildren
 } from '../render/index'
 
-const updateDOM = (dom: HTMLElement, vDOM: any) => {
-  console.log(vDOM);
+type childType = {
+  type: string,
+  children: any[],
+  props: {
+    [index: string]: any
+  }
+}
 
-  [].forEach.call(vDOM.children, (child: HTMLElement, i: number): void => {
-    const childNode = dom.childNodes[i]
-    if (childNode && child.tagName === childNode.tagName.toLowerCase()) {
+const updateDOM = (dom: HTMLElement, vDOM: any) => {
+  [].forEach.call(vDOM.children, (child: childType, i: number): void => {
+    const childNode = (<HTMLInputElement>dom.childNodes[i])
+    if (childNode && child.type === childNode.tagName.toLowerCase()) {
       // console.log(childNode.tagName)
       setAttrs(child, childNode)
       // updateDOM(childNode, child)
-    } else if (childNode && child.tagName !== childNode.tagName.toLowerCase() && dom.childNodes.length > vDOM.children.length) {
+    } else if (childNode && child.type !== childNode.tagName.toLowerCase() && dom.childNodes.length > vDOM.children.length) {
       childNode.remove()
       updateDOM(dom, vDOM)
       // setAttrs(child, dom.childNodes[i])
     } else {
-      const elem = document.createElement(child.tagName)
+      const elem = document.createElement(child.type)
       setAttrs(vDOM.children[i], elem)
       dom.insertBefore(elem, childNode)
     }

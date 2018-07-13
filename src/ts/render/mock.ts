@@ -1,7 +1,7 @@
 'use strict'
 
 import Component from '../component/index'
-import node from '../node/index'
+import createElement from '../create-element/index'
 
 export default class AppMock extends Component {
   render () {
@@ -9,7 +9,7 @@ export default class AppMock extends Component {
   }
 }
 
-export const NodeMock = node({
+export const NodeMock = createElement({
   tagName: 'div',
   children: [
     {

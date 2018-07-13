@@ -2,7 +2,7 @@
 
 import Component from './component/index'
 import MiniReact from './render/index'
-import node from './node/index'
+import createElement from './create-element/index'
 
 interface Window {
   Component: any,
@@ -14,4 +14,4 @@ declare const window: Window
 
 window.Component = Component
 window.MiniReact = MiniReact
-window.node = node
+window.node = createElement

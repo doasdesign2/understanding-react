@@ -19,10 +19,10 @@ export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement =>
 export const renderDOM = (setChildren: Function, setAttrs: Function): Function =>
   (vDOM: any, wrapper?: HTMLElement): HTMLElement => {
     try {
-      const elem = document.createElement(vDOM.tagName)
+      const elem = document.createElement(vDOM.type)
       setAttrs(vDOM, elem)
+      setChildren(renderDOM)(vDOM, elem)
       const dom = append(elem, wrapper)
-      setChildren(renderDOM)(vDOM, dom)
       return dom
     } catch (err) {
       throw new Error('Invalid DOM')
@@ -41,7 +41,15 @@ export const setChildren = (renderDOM: Function): Function =>
     return dom
   }
 
-export const setAttrs = (vDOM: { props: any }, dom: HTMLElement): HTMLElement => {
+type vDOMType = {
+  type: string,
+  children: any[],
+  props: {
+    [index: string]: any
+  }
+}
+
+export const setAttrs = (vDOM: vDOMType, dom: HTMLElement): HTMLElement => {
   for (const prop in vDOM.props) {
     setAttr(dom, prop, vDOM.props[prop])
   }
@@ -62,6 +70,10 @@ export const hasValidElem = (tagName: string): boolean =>
 
 export const hasValidAttr = (prop: string): boolean =>
   VALID_ATTRS.includes(prop)
+
+interface HTMLElement {
+  [index: string]: any
+}
 
 export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement => {
   if (!hasValidElem(dom.tagName)) {
