@@ -1,6 +1,6 @@
 'use strict'
 
-import Component from './component/index'
+import Component from './update/index'
 import MiniReact from './render/index'
 import createElement from './create-element/index'
 

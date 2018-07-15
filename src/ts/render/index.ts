@@ -1,12 +1,7 @@
 'use strict'
 
-enum EVENTS {
-  onchange = 'change',
-  onclick = 'click'
-}
-
-const VALID_ELEMS = ['b', 'button', 'div', 'figure', 'img', 'input', 'h1', 'h2', 'h3', 'h4', 'p', 'span', 'small']
-const VALID_ATTRS = ['class', 'id', 'max', 'min', 'type', 'value']
+import { VALID_ELEMS } from './valid-elems'
+import { VALID_ATTRS } from './valid-attrs'
 
 export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement => {
   try {
@@ -78,9 +73,7 @@ interface HTMLElement {
 export const setAttr = (dom: HTMLElement, prop: any, value: any): HTMLElement => {
   if (!hasValidElem(dom.tagName)) {
     throw new Error('Invalid tag')
-  } else if (isTextNode(prop, value)) {
-    dom.textContent = value
-  } else if (isEvent(prop, value) || isInputAndValue(dom.tagName, prop)) {
+  } else if (isTextNode(prop, value) || isEvent(prop, value) || isInputAndValue(dom.tagName, prop)) {
     dom[prop] = value
   } else if (hasValidAttr(prop)) {
     dom.setAttribute(prop, value)

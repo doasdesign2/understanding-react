@@ -14,15 +14,11 @@ import MiniReact, {
   hasValidAttr,
   setAttr
 } from './index'
-import AppMock, { NodeMock, ResultMock } from './mock';
+import AppMock, { NodeMock, ResultMock } from '../mocks/index';
 
 chai.use(chaiDom)
 
 describe('append should:', () => {
-  it('be a function', () => {
-    expect(append).to.be.a('function')
-  })
-
   it('return the own element if hasn`t a wrapper', () => {
     const div = document.createElement('div')
     div.textContent = 'teste'
@@ -52,10 +48,6 @@ describe('append should:', () => {
 })
 
 describe('renderDOM should:', () => {
-  it('be a function', () => {
-    expect(renderDOM).to.be.a('function')
-  })
-
   it('render full DOM', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
@@ -77,10 +69,6 @@ describe('renderDOM should:', () => {
 })
 
 describe('setChildren should:', () => {
-  it('be a function', () => {
-    expect(setChildren).to.be.a('function')
-  })
-
   it('render full DOM', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
@@ -102,10 +90,6 @@ describe('setChildren should:', () => {
 })
 
 describe('setAttrs should:', () => {
-  it('be a function', () => {
-    expect(setAttrs).to.be.a('function')
-  })
-
   it('render DOM with correct attributes', () => {
     const root = document.createElement('div')
     root.setAttribute('id', 'root')
@@ -115,10 +99,6 @@ describe('setAttrs should:', () => {
 })
 
 describe('isTextNode should:', () => {
-  it('be a function', () => {
-    expect(isTextNode).to.be.a('function')
-  })
-
   it('return true if prop is textContent and value is string', () => {
     expect(isTextNode('textContent', 'text')).to.be.ok
   })
@@ -131,10 +111,6 @@ describe('isTextNode should:', () => {
 })
 
 describe('isEvent should:', () => {
-  it('be a function', () => {
-    expect(isEvent).to.be.a('function')
-  })
-
   it('return true if prop starts with on and value is a function', () => {
     expect(isEvent('onchange', () => {})).to.be.ok
   })
@@ -147,10 +123,6 @@ describe('isEvent should:', () => {
 })
 
 describe('isInputAndValue should:', () => {
-  it('be a function', () => {
-    expect(isInputAndValue).to.be.a('function')
-  })
-
   it('return true if prop starts with on and value is a function', () => {
     const input = document.createElement('input')
     expect(isInputAndValue(input.tagName, 'value')).to.be.ok
@@ -164,10 +136,6 @@ describe('isInputAndValue should:', () => {
 })
 
 describe('hasValidElem should:', () => {
-  it('be a function', () => {
-    expect(hasValidElem).a('function')
-  })
-
   it('return true if has valid elements', () => {
     expect(hasValidElem('DIV')).to.be.ok
     expect(hasValidElem('INPUT')).to.be.ok
@@ -182,10 +150,6 @@ describe('hasValidElem should:', () => {
 })
 
 describe('hasValidAttr should:', () => {
-  it('be a function', () => {
-    expect(hasValidAttr).a('function')
-  })
-
   it('return true if has valid attributes', () => {
     expect(hasValidAttr('type')).to.be.ok
     expect(hasValidAttr('min')).to.be.ok
@@ -199,10 +163,6 @@ describe('hasValidAttr should:', () => {
 })
 
 describe('setAttr should:', () => {
-  it('be a function', () => {
-    expect(setAttr).to.be.a('function')
-  })
-
   it('put a text node if is textContent', () => {
     const div = document.createElement('div')
     const elem = setAttr(div, 'textContent', 'texto')

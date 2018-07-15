@@ -7,8 +7,9 @@ class App extends Component {
       maxLimit: 5000,
       header: [
         {
-          tagName: 'h1',
-          textContent: 'Ajuste de limite'
+          tagName: 'h2',
+          class: 'hello',
+          textContent: 'testando222'
         }
       ],
       header2: [
@@ -18,7 +19,6 @@ class App extends Component {
         },
         {
           tagName: 'h2',
-          class: 'hello1',
           textContent: 'ajustando2'
         }
       ],
@@ -35,21 +35,20 @@ class App extends Component {
   changeHeader () {
     this.setState({
       header: [
-        ...this.state.header,
         {
-          tagName: 'h2',
+          tagName: 'h1',
           class: 'hello',
-          textContent: 'testando222'
+          textContent: 'Ajuste de limite'
         }
       ],
       header2: [
         {
-          tagName: 'h3',
+          tagName: 'h2',
           class: 'hello',
           textContent: `${this.state.label}olar`
         }
       ],
-      label: `${this.state.label}olar`
+      label: 'texto simples'
     })
   }
 

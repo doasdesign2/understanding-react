@@ -1,7 +1,7 @@
 'use strict'
 
 type NodeBase = {
-  children: any[],
+  children?: any[],
   props?: {}
 }
 
