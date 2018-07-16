@@ -14,11 +14,17 @@ export const append = (elem: HTMLElement, wrapper?: HTMLElement): HTMLElement =>
 export const renderDOM = (setChildren: Function, setAttrs: Function): Function =>
   (vDOM: any, wrapper?: HTMLElement): HTMLElement => {
     try {
-      const elem = document.createElement(vDOM.type)
-      setAttrs(vDOM, elem)
-      setChildren(renderDOM)(vDOM, elem)
-      const dom = append(elem, wrapper)
-      return dom
+      if (vDOM.type) {
+        const elem = document.createElement(vDOM.type)
+        setAttrs(vDOM, elem)
+        setChildren(renderDOM)(vDOM, elem)
+        const dom = append(elem, wrapper)
+        return dom
+      } else {
+        const elem = document.createTextNode(vDOM.props.textContent)
+        const dom = append(elem, wrapper)
+        return dom
+      }
     } catch (err) {
       throw new Error('Invalid DOM')
     }
@@ -52,7 +58,7 @@ export const setAttrs = (vDOM: vDOMType, dom: HTMLElement): HTMLElement => {
 }
 
 export const isTextNode = (prop: string, value: any): boolean =>
-  prop === 'textContent' && typeof value === 'string'
+  prop === 'textContent' && typeof value === 'string' || typeof value === 'number'
 
 export const isEvent = (prop: string, value: any): boolean =>
   prop.startsWith('on') && typeof value === 'function'

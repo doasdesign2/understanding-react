@@ -4,9 +4,10 @@ import Component, {
   isTypeEqualTagName,
   hasDOMmoreChildrenThanVDOM,
   updateDOM,
-  shouldComponentUpdate
+  shouldComponentUpdate,
+  checkStateType
 } from './index'
-import {
+import AppMock, {
   NodeMock,
   NodeUpdateMock,
   ResultMock,
@@ -15,6 +16,7 @@ import {
 } from '../mocks/index'
 import chai, { expect } from 'chai'
 import chaiDom from 'chai-dom'
+import MiniReact from '../render/index'
 
 chai.use(chaiDom)
 
@@ -36,7 +38,7 @@ describe('hasDOMmoreChildrenThanVDOM should:', () => {
   const div = document.createElement('div')
 
   it('return true if DOM has more children than vDOM', () => {
-    const innerHTML = '<h1>Title</h1><h2>Subtitle</h2><input /><p>Text</p><input />'
+    const innerHTML = '<h1>Title</h1><h2>Subtitle</h2><h3>Foo</h3><input /><p>Text</p><input />'
     div.innerHTML = innerHTML
 
     expect(hasDOMmoreChildrenThanVDOM(div.childNodes, vDOMMock.children)).to.be.ok
@@ -103,5 +105,37 @@ describe('shouldComponentUpdate should:', () => {
     }
 
     expect(shouldComponentUpdate(nextState, prevState)).to.be.not.ok
+  })
+})
+
+describe('checkStateType should:', () => {
+  it('execute function if param state is a function', () => {
+    expect(checkStateType(() => ({ state: 'foo' }))).to.be.deep.equal({ state: 'foo' })
+  })
+  it('return the object if param state is a object', () => {
+    expect(checkStateType({ state: 'foo' })).to.be.deep.equal({ state: 'foo' })
+  })
+})
+
+describe('Component should:', () => {
+  const root = document.createElement('div')
+  root.setAttribute('id', 'root')
+  const instance: any = MiniReact.render(new AppMock(), root)
+
+
+  it('change state when input is filled', () => {
+    const input = instance.querySelector('[type="text"]')
+    input.value = 200
+    input.dispatchEvent(new Event('change'))
+    expect(instance.querySelector('p').textContent).to.be.equal('R$ 4800 disponíveis')
+    expect(instance.querySelector('[type="range"]').value).to.be.equal('200')
+  })
+
+  it('change state when range changes', () => {
+    const input = instance.querySelector('[type="range"]')
+    input.value = 4000
+    input.dispatchEvent(new Event('change'))
+    expect(instance.querySelector('p').textContent).to.be.equal('R$ 1000 disponíveis')
+    expect(instance.querySelector('[type="range"]').value).to.be.equal('4000')
   })
 })

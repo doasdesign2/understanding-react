@@ -18,7 +18,6 @@
     "@types/chai": "^4.1.4",
     "@types/chai-dom": "^0.0.6",
     "@types/jest": "^23.1.4",
-    "@types/jsdom": "^11.0.6",
     "awesome-typescript-loader": "^5.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "8.0.0-beta.0",
@@ -27,10 +26,18 @@
     "chai-dom": "^1.8.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.3.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.2",
     "path": "^0.12.7",
+    "sass-lint": "^1.12.1",
+    "sass-loader": "^7.0.3",
     "source-map-loader": "^0.2.3",
+    "style-loader": "^0.21.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0-dev.20180707",
     "webpack": "^4.15.1",
@@ -41,7 +48,9 @@
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "collectCoverageFrom": ["**/src/**/*.{ts,js}"],
+    "collectCoverageFrom": [
+      "**/src/**/*.{ts,js}"
+    ],
     "testRegex": "test.ts$",
     "moduleFileExtensions": [
       "js",

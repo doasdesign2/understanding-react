@@ -6,7 +6,7 @@ const Default = require('./default')
 const Webpack = require('webpack')
 
 module.exports = {
-  entry: Default.entry,
+  entry: [ ...Default.entry ],
 
   output: {
     filename: 'mini-react.js',
@@ -22,7 +22,9 @@ module.exports = {
     rules: [
       Default.preLoader,
       Default.tsLoader,
-      Default.jsLoader
+      Default.jsLoader,
+      Default.scssLoader,
+      Default.fileLoader
     ]
   },
 
@@ -35,6 +37,8 @@ module.exports = {
       from: Default.paths.public,
       to: Default.paths.dist
     }]),
+
+    ...Default.plugins
   ],
 
   resolve: Default.resolve

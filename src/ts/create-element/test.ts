@@ -18,6 +18,13 @@ describe('createElement should:', () => {
           children: []
         },
         {
+          type: undefined,
+          props: {
+            textContent: 'Descrição'
+          },
+          children: []
+        },
+        {
           type: 'input',
           props: {
             type: 'text',

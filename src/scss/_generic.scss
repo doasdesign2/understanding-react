@@ -1,0 +1,24 @@
+@each $font in $fonts {
+  @font-face {
+    font-family: $font;
+    src:
+    url('#{$helvetica-folder + $font}.eot?#iefix') format('embedded-opentype'),
+    url('#{$helvetica-folder + $font}.woff2') format('woff2'),
+    url('#{$helvetica-folder + $font}.woff') format('woff'),
+    url('#{$helvetica-folder + $font}.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+* {
+  border: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+ul {
+  list-style: none;
+}

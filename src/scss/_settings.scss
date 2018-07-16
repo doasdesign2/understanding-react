@@ -1,0 +1,25 @@
+$greyish-brown: #4a4a4a;
+$clear-blue: #278bff;
+$cerulean-blue: #006ae5;
+$light-blue-grey: #b5cae3;
+$white: #fff;
+
+$border-color: #ddd;
+
+$fonts-path: '/fonts/';
+
+$helvetica-folder: $fonts-path + 'helvetica-neue/';
+
+$font-size-small: 12px;
+$font-size-medium: 16px;
+$font-size-large: 48px;
+
+$fonts: (
+  'HelveticaNeue-UltraLight',
+  'HelveticaNeue-Light',
+  'HelveticaNeue-Bold'
+);
+
+$helvetica-neue-light: nth($fonts, 1);
+$helvetica-neue-regular: nth($fonts, 2);
+$helvetica-neue-bold: nth($fonts, 3);

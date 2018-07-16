@@ -1,12 +1,13 @@
 'use strict'
 
+const { join } = require('path')
 const Default = require('./default')
 const Webpack = require('webpack')
 
 module.exports = {
   entry: [
     'webpack/hot/only-dev-server',
-    Default.entry
+    ...Default.entry
   ],
 
   output: {
@@ -32,12 +33,14 @@ module.exports = {
     rules: [
       Default.preLoader,
       Default.tsLoader,
-      Default.jsLoader
+      Default.jsLoader,
+      Default.scssLoader,
+      Default.fileLoader
     ]
   },
 
   plugins: [
-    new Webpack.HotModuleReplacementPlugin(),
+    new Webpack.HotModuleReplacementPlugin()
   ],
 
   resolve: Default.resolve

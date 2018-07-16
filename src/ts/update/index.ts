@@ -24,7 +24,9 @@ export const hasDOMmoreChildrenThanVDOM = (childNodes: NodeListOf<Node & ChildNo
 export const updateDOM = (dom: HTMLElement, vDOM: any) => {
   [].forEach.call(vDOM.children, (vChild: childType, i: number): void => {
     const childNode = (<HTMLInputElement>dom.childNodes[i])
-    if (isTypeEqualTagName(vChild, childNode)) {
+    if (!vChild.type) {
+      console.log('Is text node')
+    } else if (isTypeEqualTagName(vChild, childNode)) {
       setAttrs(vChild, childNode)
     } else if (!isTypeEqualTagName(vChild, childNode) && hasDOMmoreChildrenThanVDOM(dom.childNodes, vDOM.children)) {
       childNode.remove()
@@ -44,6 +46,9 @@ type stateType = {
   [index: string]: any
 }
 
+export const checkStateType = (state: Function|{}) =>
+  typeof state === 'function' ? state() : state
+
 export const shouldComponentUpdate = (nextState: stateType, prevState: stateType): boolean =>
   !Object.keys(nextState).every((key: string): boolean =>
     nextState[key] === prevState[key]
@@ -56,7 +61,7 @@ class Component {
   state: any
 
   setState (nextState: Function|{}) {
-    const state = typeof nextState === 'function' ? nextState() : nextState
+    const state = checkStateType(nextState)
     if (this.currentDOM && shouldComponentUpdate(state, this.state)) {
       this.state = {
         ...this.state,
