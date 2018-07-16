@@ -28,7 +28,7 @@ git clone https://github.com/doasdesign2/understanding-react.git
 
 After installing all the global dependencies, at the root folder `/mini-react` run the command `yarn`
 
-#### Running the project
+### Running the project
 
 Still at the root folder, run `yarn start` to run locally at the http://localhost:8080. The browser will open automatically.
 
