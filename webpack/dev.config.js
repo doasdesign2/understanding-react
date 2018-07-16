@@ -40,7 +40,8 @@ module.exports = {
   },
 
   plugins: [
-    new Webpack.HotModuleReplacementPlugin()
+    new Webpack.HotModuleReplacementPlugin(),
+    ...Default.plugins
   ],
 
   resolve: Default.resolve

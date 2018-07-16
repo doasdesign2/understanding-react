@@ -1,7 +1,11 @@
 'use strict'
 
 const { join, resolve } = require('path')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin')
+const HtmlPlugin = require('html-webpack-plugin')
+
+const SassLintPlugin = require('sasslint-webpack-plugin')
 const Webpack = require('webpack')
 
 const paths = {
@@ -12,11 +16,24 @@ const paths = {
 }
 
 const pluginsList = {
+  htmlPlugin: new HtmlPlugin({
+    excludeAssets: [/mini-react.js/],
+    minify: { collapseWhitespace: true },
+    template: join(paths.src, 'index.html')
+  }),
+
+  htmlExcludeAssetsPlugin: new HtmlExcludeAssetsPlugin(),
+
   miniCssExtractPlugin: new MiniCssExtractPlugin({
     filename: '[name].css',
     chunkFilename: '[id].css'
-  })
+  }),
 
+  sassLintPlugin: new SassLintPlugin({
+    configFile: join(paths.root, '.sass-lint.yml'),
+    glob: 'src/**/*.s?(a|c)ss',
+    ignorePlugins: [ 'extract-text-webpack-plugin' ]
+  })
 }
 
 module.exports = {
@@ -93,6 +110,8 @@ module.exports = {
   },
 
   plugins: [
+    pluginsList.htmlPlugin,
+    pluginsList.htmlExcludeAssetsPlugin,
     pluginsList.miniCssExtractPlugin
   ]
 }

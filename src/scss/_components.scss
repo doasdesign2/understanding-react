@@ -58,16 +58,4 @@
       }
     }
   }
-
-  &__save-button {
-    background-color: $cerulean-blue;
-    border-radius: 25px;
-    color: $white;
-    cursor: pointer;
-    font: #{$font-size-small + '/45px'} $helvetica-neue-bold;
-    letter-spacing: 2px;
-    margin-top: 30px;
-    text-transform: uppercase;
-    width: 85%;
-  }
 }

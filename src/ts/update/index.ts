@@ -1,11 +1,6 @@
 'use strict'
 
-import {
-  renderDOM,
-  setAttr,
-  setAttrs,
-  setChildren
-} from '../render/index'
+import { setAttrs } from '../render/index'
 
 type childType = {
   type: string,
@@ -73,6 +68,7 @@ export const updateDOM = (dom: HTMLElement, vDOM: any) => {
 type stateType = {
   [index: string]: any
 }
+
 /**
  * Checks if the state type is object, just repassing it, or is a function,
  * executing it
@@ -107,8 +103,11 @@ class Component {
     [index: string]: any
   }
   state: {
-    [index: string]: any
+    [index: string]: any,
+    definedLimit: number,
+    maxLimit: number
   }
+
 /**
  * Method executed when the setState is called. It calls its render method to get
  * a new virtual DOM and renders it through updateDOM
@@ -116,7 +115,7 @@ class Component {
  * @param {(Function|{})} nextState
  * @memberof Component
  */
-setState (nextState: Function|{}): void {
+  setState (nextState: Function|{}): void {
     const state = checkStateType(nextState)
     if (this.currentDOM && shouldComponentUpdate(state, this.state)) {
       this.state = {

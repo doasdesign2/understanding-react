@@ -39,19 +39,3 @@ Also at the root folder, run `yarn build` to build the files inside the `/dist` 
 ### Running the tests
 
 At the root folder, run `yarn test` or `yarn test:watch` to keep watching the changes. If you want to run through the Wallaby app, there's also an `wallaby.js` file at the root folder.
-
-### Next steps
-
-- Implement JSX
-- Implement lifecycle hooks
-- Improve children nodes reconciliation
-- Improve attributes changes checking
-- Implement key for lists
-- Implement Components rendering
-- Implement possibility to use styled component
-- Implement the React Fiber algorithm reconciliation
-
-### Some references:
-
-- [Gooact: React in 160 lines of JavaScript](https://medium.com/@sweetpalma/gooact-react-in-160-lines-of-javascript-44e0742ad60f)
-- [Didact: a DIY guide to build your own React](https://github.com/hexacta/didact)

@@ -1,6 +1,6 @@
 'use strict';
 
-import Component, {
+import {
   isTypeEqualTagName,
   hasDOMmoreChildrenThanVDOM,
   updateDOM,
@@ -8,7 +8,6 @@ import Component, {
   checkStateType
 } from './index'
 import AppMock, {
-  NodeMock,
   NodeUpdateMock,
   ResultMock,
   ResultUpdateMock,
